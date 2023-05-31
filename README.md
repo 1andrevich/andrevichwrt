@@ -55,13 +55,13 @@ Cara menambahkan repository ini ke firmware, dapat menggunakan 2 cara yaitu:
   3. Pada bagian custom feeds tambahkan list dibawah ini
 
       ```
-      src/gz custom_generic https://raw.githubusercontent.com/lrdrdn/my-opkg-repo/main/generic
-      src/gz custom_arch https://raw.githubusercontent.com/lrdrdn/my-opkg-repo/main/arm_cortex-a7_neon-vfpv4
+      src/gz custom_generic https://raw.githubusercontent.com/Burhan7610/Repo-Paket-Openwrt/main/generic
+      src/gz custom_arch https://raw.githubusercontent.com/Burhan7610/Repo-Paket-Openwrt/main/aarch64_cortex-a53
       ```
 
-      ubah **arm_cortex-a7_neon-vfpv4** dan sesuaikan arsitektur CPU router OpenWrt kalian
+      ubah **aarch64_cortex-a53** dan sesuaikan arsitektur CPU router OpenWrt kalian
 
-      ![](https://raw.githubusercontent.com/lrdrdn/my-opkg-repo/main/preview/preview1.gif)
+      ![](https://raw.githubusercontent.com/Burhan7610/Repo-Paket-Openwrt/main/preview/preview1.gif)
  
 ### Menggunakan Terminal
   1. Gunakan salah satu rekomendasi aplikasi Terminal dibawah ini
@@ -76,13 +76,13 @@ Cara menambahkan repository ini ke firmware, dapat menggunakan 2 cara yaitu:
       
       ```
       sed -i 's/option check_signature/# option check_signature/g' /etc/opkg.conf
-      echo "src/gz custom_generic https://raw.githubusercontent.com/lrdrdn/my-opkg-repo/main/generic" >> /etc/opkg/customfeeds.conf
-      echo "src/gz custom_arch https://raw.githubusercontent.com/lrdrdn/my-opkg-repo/main/$(grep "OPENWRT_ARCH" /etc/os-release | awk -F '"' '{print $2}')" >> /etc/opkg/customfeeds.conf
+      echo "src/gz custom_generic https://raw.githubusercontent.com/Burhan7610/Repo-Paket-Openwrt/main/generic" >> /etc/opkg/customfeeds.conf
+      echo "src/gz custom_arch https://raw.githubusercontent.com/Burhan7610/Repo-Paket-Openwrt/main/$(grep "OPENWRT_ARCH" /etc/os-release | awk -F '"' '{print $2}')" >> /etc/opkg/customfeeds.conf
       ```
 
       > Catatan: untuk firmware OpenWrt 19.07 masih ada yg harus install manual seperti `kcptun-client`, `xray-core` dan `libcap-bin`.
     
-      ![](https://raw.githubusercontent.com/lrdrdn/my-opkg-repo/main/preview/preview2.gif)
+      ![](https://raw.githubusercontent.com/Burhan7610/Repo-Paket-Openwrt/main/preview/preview2.gif)
     
 
 ## Cara Install dan Update Paket
