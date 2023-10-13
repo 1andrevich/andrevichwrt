@@ -11,7 +11,6 @@ List of contents:
 - [How to Add Repository to Software Update OpenWrt](#how-to-add-repository-to-software-update-openwrt)
 - [How to Install and Update Packages](#how-to-install-and-update-packages)
 - [How to check whether a package is installed or not](#how-to-check-a package-is-installed-or-not)
-- [Credit](#credit)
 
 ## Architectural List
 This repository supports the following architecture:
