@@ -117,4 +117,4 @@ There are 2 ways to install this repository, namely
 ## How to check whether a package has been installed or not
 There are 2 ways to install this repository, namely
 - [Using LuCI](#how-to-check-package-status-with-luci)
-- [Using Terminal](#how-to-check-package-status
+- [Using Terminal](#how-to-check-package-status)
