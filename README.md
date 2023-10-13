@@ -1,20 +1,20 @@
-# Personal OpenWrt OPKG Server
-Install dan upgrade paket aplikasi komunitas modifikasi OpenWrt (seperti: OpenClash, Passwall, ShadowSocksR+ Plus, Wegare STL, Tiny File Manager, Xderm Mini, v2rayA, Modeminfo, dll) dengan mudah.
+# Personal OpenWrt OPKG Server (fork of Burhan7610/Repo-Paket-Openwrt)
+Install and upgrade OpenWrt modified community application packages (such as: OpenClash, Passwall, ShadowSocksR+ Plus, Wegare STL, Tiny File Manager, Xderm Mini, v2rayA, Modeminfo, etc.) easily.
 
-Kelebihan instalasi dan update menggunakan server kustom seperti ini adalah:
-1. Tidak perlu repot menggunakan wget dan curl yang sangat panjang dan rumit.
-2. Instalasi paket ipk bisa menggunakan `opkg install nama-paket`.
-3. Instalasi paket ipk juga bisa menggunakan fitur **System - Software** pada LuCI OpenWrt.
+The advantages of installing and updating using a custom server like this are:
+1. No need to bother using wget and curl which are very long and complicated.
+2. Installing the ipk package can use `opkg install package-name`.
+3. Installing the IPK package can also use the **System - Software** feature in LuCI OpenWrt.
 
-Daftar Isi:
-- [Daftar Arsitektur](#daftar-arsitektur)
-- [Cara Menambah Repository ke Software Update OpenWrt](#cara-menambah-repository-ke-software-update-openwrt)
-- [Cara Install dan Update Paket](#cara-install-dan-update-paket)
-- [Cara Memeriksa Paket Sudah Terinstal Atau Belum](#cara-memeriksa-paket-sudah-terinstal-atau-belum)
-- [Kredit](#kredit)
+List of contents:
+- [Architecture List](#architecture-list)
+- [How to Add Repository to Software Update OpenWrt](#how-to-add-repository-to-software-update-openwrt)
+- [How to Install and Update Packages](#how-to-install-and-update-packages)
+- [How to check whether a package is installed or not](#how-to-check-a package-is-installed-or-not)
+- [Credit](#credit)
 
-## Daftar Arsitektur
-Repository ini mendukung arsitektur dibawah ini:
+## Architectural List
+This repository supports the following architecture:
 
 ```
 aarch64_cortex-a53
@@ -28,115 +28,93 @@ mipsel_24kc
 x86_64
 ```
 
-## Cara Menambah Repository ke Software Update OpenWrt
-Cara menambahkan repository ini ke firmware, dapat menggunakan 2 cara yaitu:
-- [Menggunakan LuCI](#menggunakan-luci)
-- [Menggunakan Terminal](#menggunakan-terminal) seperti JuiceSSH/Termius/Termux
+## How to Add a Repository to the OpenWrt Update Software
+There are 2 ways to add this repository to the firmware, namely:
+- [Using LuCI](#using-luci)
+- [Using Terminal](#using-terminal) such as JuiceSSH/Termius/Termux
 
 
-### Menggunakan LuCI
+### Using LuCI
 
-  1. Masuk IP LuCI (contoh: 192.168.1.1), Login, Buka **System -> Software -> Configuration**
+   1. Enter LuCI IP (example: 192.168.1.1), Login, Open **System -> Software -> Configuration**
   
-  2. Tambahkan tanda # (pagar) di depan baris ```option check_signature```, contoh dibawah ini
+   2. Add a # sign (fence) in front of the ```option check_signature``` line, example below
   
-      ubah tulisan dibawah ini
+       change the text below
       
-      ```
-      option check_signature
-      ```
+       ```
+       option check_signature
+       ```
       
-      menjadi seperti ini
+       become like this
       
-      ```
-      # option check_signature
-      ```
+       ```
+       # option check_signature
+       ```
 
-  3. Pada bagian custom feeds tambahkan list dibawah ini
+   3. In the custom feeds section, add the list below
 
-      ```
-      src/gz custom_generic https://raw.githubusercontent.com/Burhan7610/Repo-Paket-Openwrt/main/generic
-      src/gz custom_arch https://raw.githubusercontent.com/Burhan7610/Repo-Paket-Openwrt/main/aarch64_cortex-a53
-      ```
+       ```
+       src/gz custom_generic https://raw.githubusercontent.com/Burhan7610/Repo-Paket-Openwrt/main/generic
+       src/gz custom_arch https://raw.githubusercontent.com/Burhan7610/Repo-Paket-Openwrt/main/aarch64_cortex-a53
+       ```
 
-      ubah **aarch64_cortex-a53** dan sesuaikan arsitektur CPU router OpenWrt kalian
+       change **aarch64_cortex-a53** and adjust the CPU architecture of your OpenWrt router
 
-      ![](https://raw.githubusercontent.com/Burhan7610/Repo-Paket-Openwrt/main/preview/preview1.gif)
+       ![](https://raw.githubusercontent.com/Burhan7610/Repo-Paket-Openwrt/main/preview/preview1.gif)
  
-### Menggunakan Terminal
-  1. Gunakan salah satu rekomendasi aplikasi Terminal dibawah ini
-      - Terminal TTYD (Paket OpenWrt)
-      - JuiceSSH
-      - Termius
-      - Termux
+### Using Terminal
+   1. Use one of the recommended Terminal applications below
+       - TTYD Terminal (OpenWrt Package)
+       - JuiceSSH
+       - Termius
+       - Termux
       
-      > Catatan: Pengguna dapat menggunakan aplikasi terminal selain yang disebutkan diatas
+       > Note: Users can use terminal applications other than those mentioned above
   
-  2. Copy paste dibawah di terminal, otomatis akan menyesuaikan tipe arsitektur cpu router
+   2. Copy and paste below in the terminal, it will automatically adjust the router's CPU architecture type
       
-      ```
-      sed -i 's/option check_signature/# option check_signature/g' /etc/opkg.conf
-      echo "src/gz custom_generic https://raw.githubusercontent.com/Burhan7610/Repo-Paket-Openwrt/main/generic" >> /etc/opkg/customfeeds.conf
-      echo "src/gz custom_arch https://raw.githubusercontent.com/Burhan7610/Repo-Paket-Openwrt/main/$(grep "OPENWRT_ARCH" /etc/os-release | awk -F '"' '{print $2}')" >> /etc/opkg/customfeeds.conf
-      ```
+       ```
+       sed -i 's/option check_signature/# option check_signature/g' /etc/opkg.conf
+       echo "src/gz custom_generic https://raw.githubusercontent.com/Burhan7610/Repo-Paket-Openwrt/main/generic" >> /etc/opkg/customfeeds.conf
+       echo "src/gz custom_arch https://raw.githubusercontent.com/Burhan7610/Repo-Paket-Openwrt/main/$(grep "OPENWRT_ARCH" /etc/os-release | awk -F '"' '{print $2} ')" >> /etc/opkg/customfeeds.conf
+       ```
 
-      > Catatan: untuk firmware OpenWrt 19.07 masih ada yg harus install manual seperti `kcptun-client`, `xray-core` dan `libcap-bin`.
+       > Note: for OpenWrt 19.07 firmware there are still things that have to be installed manually, such as `kcptun-client`, `xray-core` and `libcap-bin`.
     
-      ![](https://raw.githubusercontent.com/Burhan7610/Repo-Paket-Openwrt/main/preview/preview2.gif)
+       ![](https://raw.githubusercontent.com/Burhan7610/Repo-Paket-Openwrt/main/preview/preview2.gif)
     
 
-## Cara Install dan Update Paket
-Cara instalasi repository ini, dapat menggunakan 2 cara yaitu
-- [Menggunakan LuCI](#install-dan-update-paket-menggunakan-luci)
-- [Menggunakan Terminal](#install-dan-update-paket-menggunakan-terminal) seperti JuiceSSH/Termius/Termux
+## How to Install and Update Packages
+There are 2 ways to install this repository, namely
+- [Using LuCI](#install-and-update-packages-using-luci)
+- [Using Terminal](#install-and-update-packages-using-terminal) such as JuiceSSH/Termius/Termux
 
-### Install dan Update Paket Menggunakan LuCI
-  1. Masuk IP LuCI (contoh: 192.168.1.1), Login, Buka **System -> Software -> Configuration**
-  2. Tekan tombol **Update Lists**.
-  3. Cari nama paket (seperti: `luci-app-passwall`) pada kolom **Filter**.
-  4. Tekan tombol **Find Package**.
-  5. Scroll sedikit, lihat dibawah ada tab **Installed packages** dan **Available packages** :
-      - Installed packages : paket pada daftar tersebut sudah terpasang.
-      - Available packages : paket pada dafter tersebut belum terpasang.
-  6. Klik **Available packages**, lalu cari nama paket yang di tulis di filter tadi.
-  7. Klik tulisan **Install** pada baris yang terdapat pada nama paket tersebut, lalu tunggu hingga instalasi paket selesai.
+### Install and Update Packages Using LuCI
+   1. Enter LuCI IP (example: 192.168.1.1), Login, Open **System -> Software -> Configuration**
+   2. Press the **Update Lists** button.
+   3. Look for the package name (such as: `luci-app-passwall`) in the **Filter** column.
+   4. Press the **Find Package** button.
+   5. Scroll a little, see below the **Installed packages** and **Available packages** tabs:
+       - Installed packages: the packages in the list are already installed.
+       - Available packages: the packages in the list are not yet installed.
+   6. Click **Available packages**, then look for the package name written in the filter earlier.
+   7. Click **Install** in the line containing the package name, then wait until the package installation is complete.
  
-### Install dan Update Paket Menggunakan Terminal
-  1. Buka aplikasi terminal yang disuka
-  2. Jalankan perintah dibawah ini untuk memperbarui daftar paket yang tersedia di server
-      ```
-      opkg update
-      ```
+### Install and Update Packages Using Terminal
+   1. Open the preferred terminal application
+   2. Run the command below to update the list of packages available on the server
+       ```
+       opkg update
+       ```
   
-  3. Jalankan perintah `opkg install nama-paket`, ganti `nama-paket` menjadi nama paket yang ada (contoh kali ini akan menggunakan paket `luci-app-passwall`).
+   3. Run the command `opkg install package-name`, changing `package-name` to the existing package name (this example will use the `luci-app-passwall` package).
       
-      ```
-      opkg install luci-app-passwall
-      ```
+       ```
+       opkg install luci-app-passwall
+       ```
 
-## Cara Memeriksa Paket Sudah Terinstal Atau Belum
-Cara instalasi repository ini, dapat menggunakan 2 cara yaitu
-- [Menggunakan LuCI](#cara-memeriksa-status-paket-dengan-luci)
-- [Menggunakan Terminal](#cara-memeriksa-status-paket-dengan-terminal) seperti JuiceSSH/Termius/Termux
-
-### Cara Memeriksa Status Paket dengan LuCI
-  1. Masuk IP LuCI (contoh: 192.168.1.1), lalu Login.
-      - Jika memasang paket yang terdapat kata `luci-app`, biasanya akan muncul di LuCI System/Services/NAS/VPN/Modem/Network dan lain lain.
-      - Jika memasang paket yang terdapat kata `luci-proto`, biasanya akan muncul di **Network -> Pilih salah satu interface -> General Setup -> Protocol**.
-      - Jika memasang paket yang terdapat kata `luci-theme`, biasanya akan muncul di **System -> System Properties -> Language and Style -> Design**.
-      - Jika memasang paket yang di install tidak terdapat kata luci, maka paket tersebut tidak akan menampilkan apapun di LuCI.
-
-### Cara Memeriksa Status Paket dengan Terminal
-  1. Buka terminal
-  2. Jalankan perintah `opkg list-installed nama-paket`, ganti `nama-paket` menjadi nama paket yang ada (contoh kali ini akan menggunakan paket `luci-app-passwall`).
-      
-      ```
-      opkg list-installed luci-app-passwall
-      ```
-      
-      Jika di terminal muncul `luci-app-passwall - 4.43-2` maka paket aplikasi sudah terpasang, jika tidak ada maka paket belum terpasang. Angka `4.43-2` pada terminal tadi adalan versi paket aplikasi yang terinstal.
-      
-      
-### Kredit
-- [Nugroho](https://radenku.com) sebagai pemilik repo, builder dan yang buat video contoh.
-- [Helmi Amirudin](https://helmiau.com/about) sebagai tukang dokumentasi.
+## How to check whether a package has been installed or not
+There are 2 ways to install this repository, namely
+- [Using LuCI](#how-to-check-package-status-with-luci)
+- [Using Terminal](#how-to-check-package-status
