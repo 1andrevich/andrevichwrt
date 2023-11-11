@@ -58,6 +58,14 @@ There are 2 ways to add this repository to the firmware, namely:
        src/gz custom_arch https://raw.githubusercontent.com/1andrevich/andrevichwrt/main/aarch64_cortex-a53
        ```
 
+Alternatively:
+
+       ```
+      sed -i 's/option check_signature/# option check_signature/g' /etc/opkg.conf
+echo "src/gz custom_generic https://raw.githubusercontent.com/1andrevich/andrevichwrt/main/generic" >> /etc/opkg/customfeeds.conf
+echo "src/gz custom_arch https://raw.githubusercontent.com/1andrevich/andrevichwrt/main/$(grep "OPENWRT_ARCH" /etc/os-release | awk -F '"' '{print $2}')" >> /etc/opkg/customfeeds.conf 
+       ```
+
        change **aarch64_cortex-a53** and adjust the CPU architecture of your OpenWrt router
 
        ![](https://raw.githubusercontent.com/Burhan7610/Repo-Paket-Openwrt/main/preview/preview1.gif)
